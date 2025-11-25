@@ -37,6 +37,9 @@ Recommended task class is #8 with a 10ms cycle time. For the nettime and axis ta
 ## Revision History
 You can find details in the project in "revision.txt"
 
+#### Version 6.0 (25.11.2025)
+- Update project to AS6
+
 #### Version 5.28.1 (22.01.2025)
 - Changed hardware to smaller C50
 - Removed smaller X20CPU
