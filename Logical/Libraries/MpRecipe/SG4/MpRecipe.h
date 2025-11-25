@@ -1,6 +1,6 @@
 /* Automation Studio generated header file */
 /* Do not edit ! */
-/* MpRecipe 5.24.3 */
+/* MpRecipe 6.3.4 */
 
 #ifndef _MPRECIPE_
 #define _MPRECIPE_
@@ -9,7 +9,7 @@ extern "C"
 {
 #endif
 #ifndef _MpRecipe_VERSION
-#define _MpRecipe_VERSION 5.24.3
+#define _MpRecipe_VERSION 6.3.4
 #endif
 
 #include <bur/plctypes.h>
@@ -41,7 +41,9 @@ typedef enum MpRecipeUIMessageEnum
 	mpRECIPE_UI_MSG_CONFIRM_SAVE = 2,
 	mpRECIPE_UI_MSG_CONFIRM_CREATE = 3,
 	mpRECIPE_UI_MSG_CONFIRM_DELETE = 4,
-	mpRECIPE_UI_MSG_CONFIRM_RENAME = 5
+	mpRECIPE_UI_MSG_CONFIRM_RENAME = 5,
+	mpRECIPE_UI_MSG_WARNING = 6,
+	mpRECIPE_UI_MSG_ERROR = 7
 } MpRecipeUIMessageEnum;
 
 typedef enum MpRecipeUIStatusEnum
@@ -53,6 +55,8 @@ typedef enum MpRecipeUIStatusEnum
 	mpRECIPE_UI_STATUS_NOTIFY = 5,
 	mpRECIPE_UI_STATUS_DELETE = 6,
 	mpRECIPE_UI_STATUS_RENAME = 7,
+	mpRECIPE_UI_STATUS_PREVIEW = 8,
+	mpRECIPE_UI_STATUS_WARNING = 98,
 	mpRECIPE_UI_STATUS_ERROR = 99
 } MpRecipeUIStatusEnum;
 
@@ -119,16 +123,23 @@ typedef enum MpRecipeErrorEnum
 typedef struct MpRecipeStatusIDType
 {	enum MpRecipeErrorEnum ID;
 	MpComSeveritiesEnum Severity;
-	unsigned short Code;
 } MpRecipeStatusIDType;
 
 typedef struct MpRecipeDiagType
 {	struct MpRecipeStatusIDType StatusID;
 } MpRecipeDiagType;
 
-typedef struct MpRecipeInfoType
+typedef struct MpRecipeRegParSyncInfoType
 {	struct MpRecipeDiagType Diag;
-} MpRecipeInfoType;
+} MpRecipeRegParSyncInfoType;
+
+typedef struct MpRecipeRegParInfoType
+{	struct MpRecipeDiagType Diag;
+} MpRecipeRegParInfoType;
+
+typedef struct MpRecipeUIInfoType
+{	struct MpRecipeDiagType Diag;
+} MpRecipeUIInfoType;
 
 typedef struct MpRecipeUISetupConfirmType
 {	plcbit RecipeLoad;
@@ -148,6 +159,8 @@ typedef struct MpRecipeUISetupType
 typedef struct MpRecipeUIMessageBoxType
 {	unsigned short LayerStatus;
 	enum MpRecipeUIMessageEnum Type;
+	unsigned short ErrorNumber;
+	signed long StatusID;
 	plcbit Confirm;
 	plcbit Cancel;
 } MpRecipeUIMessageBoxType;
@@ -172,9 +185,9 @@ typedef struct MpRecipeUIRecipeListType
 } MpRecipeUIRecipeListType;
 
 typedef struct MpRecipeUIHeaderType
-{	plcstring Name[101];
-	plcstring Description[256];
-	plcstring Version[21];
+{	plcwstring Name[101];
+	plcwstring Description[256];
+	plcwstring Version[21];
 	plcdt DateTime;
 } MpRecipeUIHeaderType;
 
@@ -207,19 +220,12 @@ typedef struct MpRecipeXmlInfoType
 	plcstring LastLoadedRecipe[256];
 } MpRecipeXmlInfoType;
 
-typedef struct MpRecipeXmlHeaderType
+typedef struct MpRecipeHeaderType
 {	plcstring Name[101];
 	plcstring Description[256];
 	plcstring Version[21];
 	plcdt DateTime;
-} MpRecipeXmlHeaderType;
-
-typedef struct MpRecipeCsvHeaderType
-{	plcstring Name[101];
-	plcstring Description[256];
-	plcstring Version[21];
-	plcdt DateTime;
-} MpRecipeCsvHeaderType;
+} MpRecipeHeaderType;
 
 typedef struct MpRecipeCsvInfoType
 {	unsigned long FileSize;
@@ -232,11 +238,11 @@ typedef struct MpRecipeRegParSync
 {
 	/* VAR_INPUT (analog) */
 	struct MpComIdentType* MpLink;
-	plcstring (*PVName);
-	plcstring (*Category);
+	plcstring *PVName;
+	plcstring *Category;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
-	struct MpRecipeInfoType Info;
+	struct MpRecipeRegParSyncInfoType Info;
 	/* VAR (analog) */
 	struct MpComInternalDataType Internal;
 	/* VAR_INPUT (digital) */
@@ -254,11 +260,11 @@ typedef struct MpRecipeRegPar
 {
 	/* VAR_INPUT (analog) */
 	struct MpComIdentType* MpLink;
-	plcstring (*PVName);
-	plcstring (*Category);
+	plcstring *PVName;
+	plcstring *Category;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
-	struct MpRecipeInfoType Info;
+	struct MpRecipeRegParInfoType Info;
 	/* VAR (analog) */
 	struct MpComInternalDataType Internal;
 	/* VAR_INPUT (digital) */
@@ -274,16 +280,17 @@ typedef struct MpRecipeXml
 {
 	/* VAR_INPUT (analog) */
 	struct MpComIdentType* MpLink;
-	plcstring (*DeviceName);
-	plcstring (*FileName);
-	struct MpRecipeXmlHeaderType* Header;
-	plcstring (*Category);
+	plcstring *DeviceName;
+	plcstring *FileName;
+	struct MpRecipeHeaderType* Header;
+	plcstring *Category;
 	enum MpRecipeXmlLoadEnum LoadType;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
 	struct MpRecipeXmlInfoType Info;
 	/* VAR (analog) */
-	struct MpComInternalDataType Internal;
+	unsigned char InternalState;
+	unsigned long InternalData[25];
 	/* VAR_INPUT (digital) */
 	plcbit Enable;
 	plcbit ErrorReset;
@@ -302,12 +309,16 @@ typedef struct MpRecipeUI
 	/* VAR_INPUT (analog) */
 	struct MpComIdentType* MpLink;
 	struct MpRecipeUISetupType UISetup;
+	plcstring *DeviceName;
+	plcstring *Category;
+	struct MpRecipeHeaderType* Header;
 	struct MpRecipeUIConnectType* UIConnect;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
-	struct MpRecipeInfoType Info;
+	struct MpRecipeUIInfoType Info;
 	/* VAR (analog) */
-	struct MpComInternalDataType Internal;
+	unsigned char InternalState;
+	unsigned long InternalData[36];
 	/* VAR_INPUT (digital) */
 	plcbit Enable;
 	plcbit ErrorReset;
@@ -320,16 +331,17 @@ typedef struct MpRecipeCsv
 {
 	/* VAR_INPUT (analog) */
 	struct MpComIdentType* MpLink;
-	plcstring (*DeviceName);
-	plcstring (*FileName);
-	struct MpRecipeCsvHeaderType* Header;
-	plcstring (*Category);
+	plcstring *DeviceName;
+	plcstring *FileName;
+	struct MpRecipeHeaderType* Header;
+	plcstring *Category;
 	enum MpRecipeCsvLoadEnum LoadType;
 	/* VAR_OUTPUT (analog) */
 	signed long StatusID;
 	struct MpRecipeCsvInfoType Info;
 	/* VAR (analog) */
-	struct MpComInternalDataType Internal;
+	unsigned char InternalState;
+	unsigned long InternalData[25];
 	/* VAR_INPUT (digital) */
 	plcbit Enable;
 	plcbit ErrorReset;

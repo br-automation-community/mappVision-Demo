@@ -1,65 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.12.7.113 FileVersion="4.9"?>
+<?AutomationStudio WorkingVersion="6.3" FileVersion="4.9"?>
 <Hardware xmlns="http://br-automation.co.at/AS/Hardware">
-  <Module Name="4PPC50_0702_11B" Type="4PPC50.0702-11B" Version="1.2.0.0">
-    <Connector Name="IF1">
-      <Parameter ID="MtuSize" Value="1500" />
-      <Parameter ID="DNAConfiguration" Value="manual" />
-      <Parameter ID="InternetAddress" Value="192.168.200.240" />
-      <Parameter ID="SubnetMask" Value="255.255.255.0" />
-    </Connector>
-    <Connector Name="IF2">
-      <Parameter ID="ActivateDevice" Value="1" />
-      <Parameter ID="InaNodeNumber" Value="212" />
-      <Parameter ID="ActivateSnmp" Value="2" />
-    </Connector>
-    <Connector Name="IF3">
-      <Parameter ID="AssignedOperatingSystem" Value="ARemb" />
-    </Connector>
-    <Connector Name="IF4">
-      <Parameter ID="AssignedOperatingSystem" Value="GPOS" />
-    </Connector>
-    <Parameter ID="ConfigurationID" Value="Vision_Sample" />
-    <Parameter ID="ConfigVersion" Value="2.0.0" />
-    <Parameter ID="UserPartitionSize" Value="32" />
-    <Parameter ID="PermanentPvSize" Value="2000" />
-    <Parameter ID="RemanentGlobalPvSize" Value="20000" />
-    <Parameter ID="VolatileGlobalPvSize" Value="256000" />
-    <Parameter ID="TimerDeviceType" Value="EPLX2X" />
-    <Parameter ID="TimerDevice" Value="4PPC50_0702_11B.IF1" />
-    <Parameter ID="TaskClassIdleTime" Value="4000" />
-    <Parameter ID="Cyclic1Duration" Value="2000" />
-    <Parameter ID="Cyclic1Tolerance" Value="4000" />
-    <Parameter ID="Cyclic2Duration" Value="20000" />
-    <Parameter ID="Cyclic2Tolerance" Value="20000" />
-    <Parameter ID="Cyclic3Duration" Value="48000" />
-    <Parameter ID="Cyclic3Tolerance" Value="48000" />
-    <Parameter ID="Cyclic4Duration" Value="100000" />
-    <Parameter ID="Cyclic4Tolerance" Value="100000" />
-    <Parameter ID="Cyclic5Duration" Value="200000" />
-    <Parameter ID="Cyclic5Tolerance" Value="200000" />
-    <Parameter ID="Cyclic6Duration" Value="500000" />
-    <Parameter ID="Cyclic6Tolerance" Value="500000" />
-    <Parameter ID="Cyclic7Duration" Value="1000000" />
-    <Parameter ID="Cyclic7Tolerance" Value="1000000" />
-    <Parameter ID="Cyclic8Duration" Value="8000" />
-    <Parameter ID="Cyclic8Tolerance" Value="30000000" />
-    <Group ID="FileDevice1" />
-    <Parameter ID="FileDeviceName1" Value="VisionFileDevice" />
-    <Parameter ID="FileDevicePath1" Value="F:\" />
-    <Group ID="FtpUser1" />
-    <Parameter ID="FtpUsername1" Value="bundr" />
-    <Parameter ID="FtpUserPassword1" Value="nMrFtJX1iKQAFT02mGT80Wb1a11GH29G52ATfKQ9HoA=" />
-    <Parameter ID="FtpUserSalt1" Value="/yM7MnyJ" />
-    <Parameter ID="FTPAccessRight1" Value="0" />
-    <Parameter ID="ActivateOpcUa" Value="1" />
-    <Parameter ID="OpcUaInformationModels_PV_Version" Value="2" />
-    <Parameter ID="OpcUaInformationModel_Facet" Value="0" />
-    <Parameter ID="OpcUaInformationModel_TypeInformation" Value="1" />
-    <Parameter ID="OpcUaInformationModel_BaseObjectTypeForStructures" Value="0" />
-  </Module>
-  <Module Name="80VD100PD.C000-01" Type="80VD100PD.C000-01" Version="2.5.0.0">
-    <Connection Connector="PLK1" TargetModule="Lightbar1" TargetConnector="PLK2" NodeNumber="20">
+  <Module Name="80VD100PD.C000-01" Type="80VD100PD.C000-01" Version="2.5.1.0" NodeNumber="20">
+    <Connection Connector="PLK1" TargetModule="Lightbar1" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="MotionTP" Value="Acp10Arnc0" />
@@ -176,7 +119,7 @@
     <Parameter ID="SimulationModeOnACOPOS" Location="DriveConfiguration/Channel[2]/RealAxis/Simulation" Value="NotUsed" />
     <Parameter ID="ExternalEncoderAxis" Location="DriveConfiguration/Channel[2]" Value="NotUsed" />
   </Module>
-  <Module Name="Backlight1" Type="VSLB11Q00.54DP-000" Version="1.2.0.681">
+  <Module Name="Backlight1" Type="VSLB11Q00.54DP-000" Version="1.2.0.763">
     <Connection Connector="PLK1" TargetModule="PixelCounter" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
@@ -186,7 +129,7 @@
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="" />
   </Module>
-  <Module Name="Backlight2" Type="VSLB11F00.54DP-000" Version="1.2.0.687">
+  <Module Name="Backlight2" Type="VSLB11F00.54DP-000" Version="1.2.0.763">
     <Connection Connector="PLK1" TargetModule="Backlight1" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
@@ -196,37 +139,37 @@
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="" />
   </Module>
-  <Module Name="Blob" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="4PPC50_0702_11B" TargetConnector="IF1" NodeNumber="1">
+  <Module Name="Blob" Type="VSS112Q22.041P-000" Version="1.11.0.922">
+    <Connection Connector="PLK1" TargetModule="X20CP3687X" TargetConnector="IF3">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="Measurement" TargetConnector="PLK1" NodeNumber="1">
+    <Connection Connector="PLK2" TargetModule="Measurement" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraBlob" />
   </Module>
-  <Module Name="CodeReader" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="Measurement" TargetConnector="PLK2" NodeNumber="2">
+  <Module Name="CodeReader" Type="VSS112Q22.041P-000" Version="1.11.0.922">
+    <Connection Connector="PLK1" TargetModule="Measurement" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="Match" TargetConnector="PLK1" NodeNumber="2">
+    <Connection Connector="PLK2" TargetModule="Match" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraCodeReading" />
   </Module>
-  <Module Name="DeepOCR" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="OCR" TargetConnector="PLK2" NodeNumber="6">
+  <Module Name="DeepOCR" Type="VSC123002.000P-000" Version="1.11.1.931">
+    <Connection Connector="PLK1" TargetModule="OCR" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="PixelCounter" TargetConnector="PLK1" NodeNumber="6">
+    <Connection Connector="PLK2" TargetModule="PixelCounter" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraDOCR" />
   </Module>
-  <Module Name="Lightbar1" Type="VSLL11Q20.67AP-000" Version="1.2.0.681">
+  <Module Name="Lightbar1" Type="VSLL11Q20.67AP-000" Version="1.2.0.763">
     <Connection Connector="PLK1" TargetModule="Backlight2" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
@@ -236,44 +179,84 @@
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="" />
   </Module>
-  <Module Name="Match" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="CodeReader" TargetConnector="PLK2" NodeNumber="3">
+  <Module Name="Match" Type="VSS112Q22.041P-000" Version="1.11.0.922">
+    <Connection Connector="PLK1" TargetModule="CodeReader" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="OCR" TargetConnector="PLK1" NodeNumber="3">
+    <Connection Connector="PLK2" TargetModule="OCR" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraMatch" />
   </Module>
-  <Module Name="Measurement" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="Blob" TargetConnector="PLK2" NodeNumber="4">
+  <Module Name="Measurement" Type="VSS112Q22.041P-000" Version="1.11.0.922">
+    <Connection Connector="PLK1" TargetModule="Blob" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="CodeReader" TargetConnector="PLK1" NodeNumber="4">
+    <Connection Connector="PLK2" TargetModule="CodeReader" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraMeasurement" />
   </Module>
-  <Module Name="OCR" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="Match" TargetConnector="PLK2" NodeNumber="5">
+  <Module Name="OCR" Type="VSS112Q22.041P-000" Version="1.11.0.922">
+    <Connection Connector="PLK1" TargetModule="Match" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="DeepOCR" TargetConnector="PLK1" NodeNumber="5">
+    <Connection Connector="PLK2" TargetModule="DeepOCR" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraOCR" />
   </Module>
-  <Module Name="PixelCounter" Type="VSC523R21.051P-000" Version="1.11.1.932">
-    <Connection Connector="PLK1" TargetModule="DeepOCR" TargetConnector="PLK2" NodeNumber="7">
+  <Module Name="PixelCounter" Type="VSS112Q22.041P-000" Version="1.11.0.922">
+    <Connection Connector="PLK1" TargetModule="DeepOCR" TargetConnector="PLK2">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
-    <Connection Connector="PLK2" TargetModule="Backlight1" TargetConnector="PLK1" NodeNumber="7">
+    <Connection Connector="PLK2" TargetModule="Backlight1" TargetConnector="PLK1">
       <Cable Type="PowerlinkCable" Length="10" Version="1.0.0.3" />
     </Connection>
     <Parameter ID="Supervision" Value="off" />
     <Parameter ID="VisionConfig" Value="gCameraPxl" />
+  </Module>
+  <Module Name="X20CP3687X" Type="X20CP3687X" Version="1.8.2.0">
+    <Connector Name="IF2">
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="ActivateSnmp" Value="2" />
+    </Connector>
+    <Connector Name="IF3">
+      <Parameter ID="MtuSize" Value="1500" />
+      <Parameter ID="DNAConfiguration" Value="manual" />
+      <Parameter ID="CycleTime" Value="2000" />
+      <Parameter ID="InternetAddress" Value="192.168.200.240" />
+      <Parameter ID="SubnetMask" Value="255.255.255.0" />
+      <Parameter ID="ActivateIpForwarding" Value="1" />
+    </Connector>
+    <Connector Name="IF6">
+      <Parameter ID="CycleTime" Value="4000" />
+    </Connector>
+    <Parameter ID="ConfigurationID" Value="Vision_Sample" />
+    <Parameter ID="ConfigVersion" Value="2.0.0" />
+    <Parameter ID="UserPartitionSize" Value="32" />
+    <Parameter ID="RemanentGlobalPvSize" Value="20000" />
+    <Parameter ID="VolatileGlobalPvSize" Value="256000" />
+    <Parameter ID="TimerDeviceType" Value="EPLX2X" />
+    <Parameter ID="TimerDevice" Value="X20CP3687X.IF3" />
+    <Parameter ID="TaskClassIdleTime" Value="4000" />
+    <Parameter ID="Cyclic1Duration" Value="2000" />
+    <Parameter ID="Cyclic3Duration" Value="48000" />
+    <Parameter ID="Cyclic3Tolerance" Value="48000" />
+    <Parameter ID="Cyclic8Duration" Value="8000" />
+    <Group ID="FileDevice1" />
+    <Parameter ID="FileDeviceName1" Value="VisionFileDevice" />
+    <Parameter ID="FileDevicePath1" Value="USER_PATH" />
+    <Parameter ID="ActivateFtpServer" Value="1" />
+    <Group ID="FtpUser1" />
+    <Parameter ID="FtpUsername1" Value="bundr" />
+    <Parameter ID="FtpUserPassword1" Value="nMrFtJX1iKQAFT02mGT80Wb1a11GH29G52ATfKQ9HoA=" />
+    <Parameter ID="FtpUserSalt1" Value="/yM7MnyJ" />
+    <Parameter ID="FTPAccessRight1" Value="0" />
+    <Parameter ID="ActivateWebServer" Value="1" />
+    <Parameter ID="ActivateSdm" Value="1" />
   </Module>
 </Hardware>

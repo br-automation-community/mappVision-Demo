@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Content id="contentMT" height="570" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Content id="contentMT" guid="6ab11799-f167-46a2-a3a1-9bedcc5d5433" height="570" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
     <Widget xsi:type="widgets.brease.GroupBox" id="grpMeasurement" top="10" left="10" width="390" height="490" zIndex="0" text="Measurement">
       <Widgets>

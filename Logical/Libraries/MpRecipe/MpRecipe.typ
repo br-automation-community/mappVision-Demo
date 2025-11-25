@@ -3,12 +3,17 @@ TYPE
 	MpRecipeStatusIDType : 	STRUCT 
 		ID : MpRecipeErrorEnum; (*Error code for mapp component*)
 		Severity : MpComSeveritiesEnum; (*Describes the type of information supplied by the status ID (success, information, warning, error)*)
-		Code : UINT; (*Code for the status ID. This error number can be used to search for additional information in the help system*)
 	END_STRUCT;
 	MpRecipeDiagType : 	STRUCT 
 		StatusID : MpRecipeStatusIDType; (*StatusID diagnostics structure*)
 	END_STRUCT;
-	MpRecipeInfoType : 	STRUCT 
+	MpRecipeRegParSyncInfoType : 	STRUCT 
+		Diag : MpRecipeDiagType; (*Diagnostic structure for the status ID*)
+	END_STRUCT;
+	MpRecipeRegParInfoType : 	STRUCT 
+		Diag : MpRecipeDiagType; (*Diagnostic structure for the status ID*)
+	END_STRUCT;
+	MpRecipeUIInfoType : 	STRUCT 
 		Diag : MpRecipeDiagType; (*Diagnostic structure for the status ID*)
 	END_STRUCT;
 	MpRecipeUISetupConfirmType : 	STRUCT 
@@ -31,7 +36,9 @@ TYPE
 		mpRECIPE_UI_MSG_CONFIRM_SAVE := 2, (*Dialog box for confirming the saving procedure*)
 		mpRECIPE_UI_MSG_CONFIRM_CREATE := 3, (*Dialog box for confirming the creation of a new recipe	*)
 		mpRECIPE_UI_MSG_CONFIRM_DELETE := 4, (*Dialog box for confirming the deletion of an existing recipe*)
-		mpRECIPE_UI_MSG_CONFIRM_RENAME := 5 (*Dialog box for confirming the renaming of an existing recipe*)
+		mpRECIPE_UI_MSG_CONFIRM_RENAME := 5, (*Dialog box for confirming the renaming of an existing recipe*)
+		mpRECIPE_UI_MSG_WARNING := 6, (*Dialog box: Warning*)
+		mpRECIPE_UI_MSG_ERROR := 7 (*Dialog box: Error*)
 		);
 	MpRecipeUIStatusEnum : 
 		(
@@ -43,11 +50,15 @@ TYPE
 		mpRECIPE_UI_STATUS_NOTIFY := 5, (*mapp components are being informed that new parameters are to be used*)
 		mpRECIPE_UI_STATUS_DELETE := 6, (*A recipe is being deleted*)
 		mpRECIPE_UI_STATUS_RENAME := 7, (*A recipe is being renamed*)
+		mpRECIPE_UI_STATUS_PREVIEW := 8, (*A recipe preview is loaded*)
+		mpRECIPE_UI_STATUS_WARNING := 98, (*The last operation generated a warning*)
 		mpRECIPE_UI_STATUS_ERROR := 99 (*The last operation generated an error*)
 		);
 	MpRecipeUIMessageBoxType : 	STRUCT 
 		LayerStatus : UINT; (*Visibility of the dialog box *)
 		Type : MpRecipeUIMessageEnum; (*Type of dialog box*)
+		ErrorNumber : UINT; (*Current error number to be displayed *)
+		StatusID : DINT; (*Current "StatusID" to be displayed *)
 		Confirm : BOOL; (*Confirms the operation*)
 		Cancel : BOOL; (*Cancels the operation*)
 	END_STRUCT;
@@ -63,7 +74,7 @@ TYPE
 		DefaultLayerStatus : UINT; (*Status data point for the default layer of the visualization page where the recipe management system is being displayed*)
 	END_STRUCT;
 	MpRecipeUIRecipeListType : 	STRUCT 
-		Names : ARRAY[0..19] OF STRING[255]; (*List of all available recipes (filenames)*)
+		Names : ARRAY[0..19]OF STRING[255]; (*List of all available recipes (filenames)*)
 		SelectedIndex : UINT; (*Index of the entry currently selected in the list*)
 		MaxSelection : UINT; (*Index of the last entry in the list*)
 		PageUp : BOOL; (*Jumps to the start of the current page and then scrolls up one page at a time *)
@@ -76,9 +87,9 @@ TYPE
 		LastModified : ARRAY[0..19]OF STRING[50]; (*List of the last modification dates for all recipe files*)
 	END_STRUCT;
 	MpRecipeUIHeaderType : 	STRUCT 
-		Name : STRING[100]; (*Name of the recipe*)
-		Description : STRING[255]; (*Comment that describes the recipe*)
-		Version : STRING[20]; (*Version of the recipe*)
+		Name : WSTRING[100]; (*Name of the recipe*)
+		Description : WSTRING[255]; (*Comment that describes the recipe*)
+		Version : WSTRING[20]; (*Version of the recipe*)
 		DateTime : DATE_AND_TIME; (*Date and time the recipe was created*)
 	END_STRUCT;
 	MpRecipeUIRecipeType : 	STRUCT 
@@ -107,18 +118,12 @@ TYPE
 		mpRECIPE_UI_SORT_DATE_ASCENDING := 2, (*Sorts in ascending (date/time) order*)
 		mpRECIPE_UI_SORT_DATE_DESCENDING := 3 (*Sorts in descending (date/time) order*)
 		);
-	MpRecipeXmlHeaderType : 	STRUCT 
-		Name : STRING[100]; (*Name of the recipe*)
-		Description : STRING[255]; (*Comment that describes the recipe*)
-		Version : STRING[20]; (*Version of the recipe*)
-		DateTime : DATE_AND_TIME; (*Date and time the recipe was created*)
-	END_STRUCT;
 	MpRecipeXmlLoadEnum : 
 		(
 		mpRECIPE_XML_LOAD_ALL := 0, (*Loads the entire content of the recipe*)
 		mpRECIPE_XML_LOAD_HEADER := 1 (*Loads only the recipe's header*)
 		);
-	MpRecipeCsvHeaderType : 	STRUCT 
+	MpRecipeHeaderType : 	STRUCT 
 		Name : STRING[100]; (*Name of the recipe*)
 		Description : STRING[255]; (*Comment that describes the recipe*)
 		Version : STRING[20]; (*Version of the recipe*)

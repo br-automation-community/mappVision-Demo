@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version="4.12.7.113 SP" WorkingVersion="4.12"?>
-<Project Version="2.02.0" Edition="Standard" EditionComment="Standard" xmlns="http://br-automation.co.at/AS/Project">
+<?AutomationStudio Version="6.5.0.299" WorkingVersion="6.3"?>
+<Project Version="2.2.0" Edition="Standard" EditionComment="Standard" xmlns="http://br-automation.co.at/AS/Project">
   <Communication />
   <ANSIC Declarations="true" DefaultIncludes="true" />
   <IEC ExtendedConstants="true" IecExtendedComments="true" KeywordsAsStructureMembers="false" NamingConventions="true" Pointers="true" Preprocessor="false" />
@@ -8,11 +8,11 @@
   <Project StoreRuntimeInProject="false" />
   <Variables DefaultInitValue="0" DefaultRetain="false" DefaultVolatile="true" />
   <TechnologyPackages>
-    <mapp Version="5.24.3" />
-    <mappCockpit Version="5.24.4" />
-    <mappMotion McAcpDrv="5.27.1" McAcpSim="5.27.1" McAcpSys="5.27.1" McDriveLog="5.27.1" Version="5.27.1" />
-    <mappView Version="5.24.4" />
-    <mappVision Version="5.28.1" />
-    <OpcUaFx FxPtpB="1.0.0" PubSub="1.1.0" Version="1.2.0" />
+    <mappCockpit Version="6.4.1" />
+    <mappMotion McAcpDrv="6.4.3" McAcpSim="6.4.3" McAcpSys="6.4.3" McDriveLog="6.4.3" Version="6.4.3" />
+    <mappServices Version="6.3.4" />
+    <mappView Version="6.3.2" />
+    <mappVision Version="6.0.0" />
+    <OpcUaCs Version="6.4.0" />
   </TechnologyPackages>
 </Project>

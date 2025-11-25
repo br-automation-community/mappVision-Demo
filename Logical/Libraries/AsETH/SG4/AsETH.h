@@ -15,21 +15,6 @@ extern "C"
 #ifndef _BUR_PUBLIC
 #define _BUR_PUBLIC
 #endif
-/* Constants */
-#ifdef _REPLACE_CONST
- #define ethERR_SYSTEM 32899U
- #define ethERR_PARAMETER 32850U
-#else
- #ifndef _GLOBAL_CONST
-   #define _GLOBAL_CONST _WEAK const
- #endif
- _GLOBAL_CONST unsigned short ethERR_SYSTEM;
- _GLOBAL_CONST unsigned short ethERR_PARAMETER;
-#endif
-
-
-
-
 /* Datatypes and datatypes of function blocks */
 typedef struct ethSTATISTICS_typ
 {	unsigned long bytesrecv;
@@ -79,6 +64,18 @@ typedef struct EthStat
 _BUR_PUBLIC void EthStat(struct EthStat* inst);
 _BUR_PUBLIC unsigned short ethInetAton(unsigned long pIpStr, unsigned long pIpAdr);
 _BUR_PUBLIC unsigned short ethInetNtoa(unsigned long ipAdr, unsigned long pIpStr);
+
+
+/* Constants */
+#ifdef _REPLACE_CONST
+ #define ethERR_SYSTEM 32899U
+ #define ethERR_PARAMETER 32850U
+#else
+ _GLOBAL_CONST unsigned short ethERR_SYSTEM;
+ _GLOBAL_CONST unsigned short ethERR_PARAMETER;
+#endif
+
+
 
 
 #ifdef __cplusplus

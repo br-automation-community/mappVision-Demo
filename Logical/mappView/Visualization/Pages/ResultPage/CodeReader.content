@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Content id="contentCodeReader" height="570" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2">
+<Content id="contentCodeReader" guid="4fc333c0-0fee-4a2a-ba31-41c27ee2c3e2" height="570" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2">
   <Widgets>
     <Widget xsi:type="widgets.brease.Table" id="tabCodeReader" top="10" left="10" width="1175" height="350" zIndex="0">
       <Widgets>

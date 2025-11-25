@@ -138,7 +138,7 @@ FUNCTION_BLOCK MC_BR_CamAutomatCommand (*send command for the cam automat to the
 		Error : BOOL; (*error occurred during operation*)
 		ErrorID : DINT; (*error number*)
 		Running : BOOL; (*automat is currently running*)
-		StandBy : BOOL; (*automat is in standby and can be restarted*)
+		Standby : BOOL; (*automat is in standby and can be restarted*)
 		ActualStateIndex : USINT; (*index of the actual cam automat state*)
 		ActualStateCamIndex : UINT; (*index of the cam of the actual cam automat state*)
 		InCam : BOOL; (*cam in the current cam automat state is active*)
@@ -774,7 +774,7 @@ FUNCTION_BLOCK MC_BR_CamIn (*starts a cam coupling between the master and slave 
         ErrorID : DINT; (*error number*)
         DataInitialized : BOOL; (*changes to function block inputs initialized*)
         Running : BOOL; (*the coupling is engaged. The slave will follow the master*)
-        StandBy : BOOL; (*cam coupling can be restarted with 'Restart'*)
+        Standby : BOOL; (*cam coupling can be restarted with 'Restart'*)
         InLeadIn : BOOL; (*the slave axis couples with the cam with a lead-in movement*)
         InCam : BOOL; (*cam in the current cam automat state is active*)
         InLeadOut : BOOL; (*he slave axis decouples from the cam with a lead-out movement*)
@@ -1637,4 +1637,20 @@ FUNCTION_BLOCK MC_BR_CheckAutCompensation (*Checks whether or not the compensati
 	VAR
 		Internal : McInternalTwoRefType; (*internal variable*)
 	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MC_BR_PowerOnTest (*Tests if a power-on command would be successful or result in an error*)
+    VAR_INPUT
+        Axis : REFERENCE TO McAxisType; (*axis reference*)
+        Execute : BOOL; (*FB is active as long as input is set*)
+    END_VAR
+    VAR_OUTPUT
+        Done : BOOL; (*execution successful. FB finished*)
+        Busy : BOOL; (*FB is active and needs to be called*)
+        Error : BOOL; (*error occurred during operation*)
+        ErrorID : DINT; (*error number*)
+    END_VAR
+    VAR
+        Internal : McInternalType; (*internal variable*)
+    END_VAR
 END_FUNCTION_BLOCK
