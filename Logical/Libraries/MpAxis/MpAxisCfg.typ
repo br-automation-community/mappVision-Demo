@@ -75,7 +75,8 @@ TYPE
 		mcAXB_CTRL_MODE_POS_MDL_BASED := 3, (*Position model based - Model based control with specified parameters*)
 		mcAXB_CTRL_MODE_V_FREQ := 2, (*Voltage frequency - Voltage/frequency control of induction motor with specified parameters*)
 		mcAXB_CTRL_MODE_STP_CUR := 4, (*Stepper current - StpAx only. Current controller is used*)
-		mcAXB_CTRL_MODE_STP_POS_AND_CUR := 5 (*Stepper position and current - StpAx only. Position and current controller are used*)
+		mcAXB_CTRL_MODE_STP_POS_AND_CUR := 5, (*Stepper position and current - StpAx only. Position and current controller are used*)
+		mcAXB_CTRL_MODE_NOT_USE := 6 (*Not used - Controller not used*)
 		);
 	MpAXBDrvCtrlPosType : STRUCT (*Position controller parameters*)
 		ProportionalGain : REAL; (*Proportional amplification [1/s]*)
@@ -94,7 +95,8 @@ TYPE
 		( (*Mode of the axis controller*)
 		mcAXB_FF_MODE_STD := 0, (*Standard*)
 		mcAXB_FF_MODE_PRED_SPD := 1, (*Predictive speed*)
-		mcAXB_FF_MODE_TWO_MASS_MDL := 2 (*Two mass model*)
+		mcAXB_FF_MODE_TWO_MASS_MDL := 2, (*Two mass model*)
+		mcAXB_FF_MODE_FRICT_COMP := 3 (*Friction compensation*)
 		);
 	MpAXBDrvCtrlFFwdType : STRUCT (*Torque feed-forward control parameters*)
 		Mode : MpAXBDrvCtrlFFwdModEnum; (*Mode of the axis controller*)
@@ -105,6 +107,9 @@ TYPE
 		Inertia : REAL; (*Mass moment of inertia [kgm²]*)
 		AccelerationFilterTime : REAL; (*Acceleration filter time constant [s]*)
 		PredictionTime : REAL; (*Prediction time [s]*)
+		ActivationSpeed : REAL; (*Activation speed. Only for mode mcAXB_FF_MODE_FRICT_COMP [measurement units/s]*)
+		DeactivationLagError : REAL; (*Deactivation position error. Only for mode mcAXB_FF_MODE_FRICT_COMP [measurement unit]*)
+		TimeConstant : REAL; (*Time constant. Only for mode mcAXB_FF_MODE_FRICT_COMP [s]*)
 	END_STRUCT;
 	MpAXBDrvCtrlFdbkModEnum :
 		( (*Mode of the axis controller*)
@@ -132,12 +137,19 @@ TYPE
 		Mass1 : MpAXBDrvCtrlMdlMass1Type; (*Mass 1 parameters*)
 		Mass2 : MpAXBDrvCtrlMdlMass2Type; (*Mass 2 parameters*)
 	END_STRUCT;
+	MpAXBDrvCtrlVFreqCtrlTypEnum :
+		( (*Type of characteristic curve*)
+		mcAXB_VF_TYP_LIN := 129, (*Linear - Linear characteristic curve*)
+		mcAXB_VF_TYP_CONST_LD_TORQ := 131, (*Constant load torque - Characteristic curve for quadratic load curves*)
+		mcAXB_VF_TYP_QUAD := 130 (*Quadratic - Characteristic curve for quadratic load curves*)
+		);
 	MpAXBDrvCtrlVFreqCtrlAutCfgEnum :
 		( (*Automatic configuration of parameters*)
 		mcAXB_VF_AUTO_CFG_NOT_USE := 0, (*Not used*)
 		mcAXB_VF_AUTO_CFG_MOT_PAR_BASED := 1 (*Motor parameter based*)
 		);
 	MpAXBDrvCtrlVFreqCtrlType : STRUCT (*V/f control parameters*)
+		Type : MpAXBDrvCtrlVFreqCtrlTypEnum; (*Type of characteristic curve*)
 		AutomaticConfiguration : MpAXBDrvCtrlVFreqCtrlAutCfgEnum; (*Automatic configuration of parameters*)
 		SlipCompensation : REAL; (*Slip compensation: Multiplication factor of compensated frequency*)
 		TotalDelayTime : REAL; (*Total delay time [s]*)
@@ -264,18 +276,26 @@ TYPE
 		mcAXB_QSTOP_RCT_DEC_LIM := 0, (*Deceleration limit*)
 		mcAXB_QSTOP_RCT_DEC_LIM_W_JERK := 1, (*Deceleration limit with jerk*)
 		mcAXB_QSTOP_RCT_TORQ_LIM := 2, (*Torque limit*)
-		mcAXB_QSTOP_RCT_INDUCT_HALT := 3 (*Induction halt*)
+		mcAXB_QSTOP_RCT_INDUCT_HALT := 3, (*Induction halt*)
+		mcAXB_QSTOP_RCT_TORQ_LIM_W_JERK := 4, (*Torque limit with jerk*)
+		mcAXB_QSTOP_RCT_VEL_CTRL := 5 (*Velocity control*)
 		);
 	MpAXBDrvStopReacDrvErrEnum :
 		( (*Reaction in case of an error stop which is caused by a drive error*)
 		mcAXB_ERR_RCT_DEC_LIM := 0, (*Deceleration limit*)
 		mcAXB_ERR_RCT_INDUCT_HALT := 1, (*Induction halt*)
 		mcAXB_ERR_RCT_COAST_STANDSTILL := 2, (*Coast standstill*)
-		mcAXB_ERR_RCT_CYC_DEC_AXESGROUP := 3 (*Cyclic deceleration AxesGroup*)
+		mcAXB_ERR_RCT_CYC_DEC_AXESGROUP := 3, (*Cyclic deceleration AxesGroup*)
+		mcAXB_ERR_RCT_TORQ_LIM := 4, (*Torque limit*)
+		mcAXB_ERR_RCT_TORQ_LIM_W_JERK := 5, (*Torque limit with jerk*)
+		mcAXB_ERR_RCT_VEL_CTRL := 6 (*Velocity control*)
 		);
 	MpAXBDrvStopReacType : STRUCT (*Reactions of the axis in case of certain stop conditions*)
 		Quickstop : MpAXBDrvStopReacQstopEnum; (*Reaction in case of a quickstop which is caused by an active quickstop input*)
 		DriveError : MpAXBDrvStopReacDrvErrEnum; (*Reaction in case of an error stop which is caused by a drive error*)
+		DriveErrorJerkTime : REAL; (*Used for drive error stop reactiion type mcAXB_ERR_RCT_TORQ_LIM_W_JERK [s]*)
+		QuickstopJerkTime : REAL; (*Used for quickstop stop reactiion type: mcAXB_QSTOP_RCT_DEC_LIM_W_JERK,mcAXB_QSTOP_RCT_TORQ_LIM_W_JERK [s]*)
+		FilterTime : REAL; (*Movement stop: Monitoring: Filter time [s]*)
 	END_STRUCT;
 	MpAXBDrvMovVelErrMonEnum :
 		( (*Velocity error monitoring mode*)
@@ -304,20 +324,85 @@ TYPE
 		mcAXB_DI_LEVEL_HIGH := 0, (*High*)
 		mcAXB_DI_LEVEL_LOW := 1 (*Low*)
 		);
-	MpAXBDrvDigInHomeSwType : STRUCT
+	MpAXBDrvDigInSrcEnum :
+		( (*Source of the digital input which is used for this functionality*)
+		mcAXBDI_NOT_USE := 0, (*Not used*)
+		mcAXBDI_ACP_DIG_IN_X8TRG_1 := 1, (*ACOPOS digital in X8.Trigger 1*)
+		mcAXBDI_ACP_DIG_IN_X8TRG_2 := 2, (*ACOPOS digital in X8.Trigger 2*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X1 := 3, (*ACOPOS digital in SS1.X41x.1*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X2 := 4, (*ACOPOS digital in SS1.X41x.2*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X3 := 5, (*ACOPOS digital in SS1.X41x.3*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X4 := 6, (*ACOPOS digital in SS1.X41x.4*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X5 := 7, (*ACOPOS digital in SS1.X41x.5*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X6 := 8, (*ACOPOS digital in SS1.X41x.6*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X7 := 9, (*ACOPOS digital in SS1.X41x.7*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X8 := 10, (*ACOPOS digital in SS1.X41x.8*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X9 := 11, (*ACOPOS digital in SS1.X41x.9*)
+		mcAXBDI_ACP_DIG_IN_SS1X41X10 := 12, (*ACOPOS digital in SS1.X41x.10*)
+		mcAXBDI_ACP_DIG_IN_X23ATRG_1 := 13, (*ACOPOS digital in X23A.Trigger 1*)
+		mcAXBDI_ACP_DIG_IN_X23ATRG_2 := 14, (*ACOPOS digital in X23A.Trigger 2*)
+		mcAXBDI_ACP_DIG_IN_X24ATRG_2 := 15, (*ACOPOS digital in X24A.Trigger 2*)
+		mcAXBDI_ACP_DIG_IN_X2TRG_1 := 16, (*ACOPOS digital in X2.Trigger 1*)
+		mcAXBDI_ACP_DIG_IN_X2TRG_2 := 17, (*ACOPOS digital in X2.Trigger 2*)
+		mcAXBDI_ACP_DIG_IN_X1TRG_1 := 18, (*ACOPOS digital in X1.Trigger 1*)
+		mcAXBDI_ACP_DIG_IN_X1TRG_2 := 19, (*ACOPOS digital in X1.Trigger 2*)
+		mcAXBDI_ACP_DIG_IN_X1REF_SW := 20, (*ACOPOS digital in X1.Reference switch*)
+		mcAXBDI_ACP_DIG_IN_X1POS_HW_LIM := 21, (*ACOPOS digital in X1.Positive HW limit*)
+		mcAXBDI_ACP_DIG_IN_X1NEG_HW_LIM := 22, (*ACOPOS digital in X1.Negative HW limit*)
+		mcAXBDI_FORCED_BY_FUN_BLK := 23, (*Forced by function block*)
+		mcAXBDI_VAR := 24, (*Variable*)
+		mcAXBDI_IO_CH := 40, (*I/O Channel*)
+		mcAXBDI_STP_DIG_IN_TRG_1 := 41, (*Stepper digital input trigger 1*)
+		mcAXBDI_STP_DIG_IN_TRG_2 := 42, (*Stepper digital input trigger 2*)
+		mcAXBDI_STP_DIG_IN_1 := 43, (*Stepper digital input 1*)
+		mcAXBDI_STP_DIG_IN_2 := 44, (*Stepper digital input 2*)
+		mcAXBDI_STP_DIG_IN_3 := 45, (*Stepper digital input 3*)
+		mcAXBDI_STP_DIG_IN_4 := 46, (*Stepper digital input 4*)
+		mcAXBDI_STP_DIG_IN_5 := 47, (*Stepper digital input 5*)
+		mcAXBDI_STP_DIG_IN_6 := 48 (*Stepper digital input 6*)
+		);
+	MpAXBDrvDigInHomeSwType : STRUCT (*Homing switch input functionality*)
 		Level : MpAXBDrvDigInLevelEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Source : MpAXBDrvDigInSrcEnum; (*Source of the digital input which is used for this functionality*)
+		SourceMapping : STRING[250]; (*Process variable or IO channel source for digital input when type mcAXBDI_VAR or mcAXBDI_IO_CH is used*)
 	END_STRUCT;
 	MpAXBDrvDigInPosLimSwType : STRUCT (*Positive limit switch input functionality*)
 		Level : MpAXBDrvDigInLevelEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Source : MpAXBDrvDigInSrcEnum; (*Source of the digital input which is used for this functionality*)
+		SourceMapping : STRING[250]; (*Process variable or IO channel source for digital input when type mcAXBDI_VAR or mcAXBDI_IO_CH is used*)
 	END_STRUCT;
 	MpAXBDrvDigInNegLimSwType : STRUCT (*Negative limit switch input functionality*)
 		Level : MpAXBDrvDigInLevelEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Source : MpAXBDrvDigInSrcEnum; (*Source of the digital input which is used for this functionality*)
+		SourceMapping : STRING[250]; (*Process variable or IO channel source for digital input when type mcAXBDI_VAR or mcAXBDI_IO_CH is used*)
 	END_STRUCT;
-	MpAXBDrvDigInTrg1Type : STRUCT
-		Level : MpAXBDrvDigInLevelEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+	MpAXBDrvDigTimeStampTypeEnum :
+		( (*Time stamp setting*)
+		mcAXB_DI_TIME_STAMP_NOT_USE := 0, (*Not used*)
+		mcAXB_DI_TIME_STAMP_USE := 1, (*Used*)
+		mcAXB_DI_TIME_STAMP_RIS_FALL_EDG := 2 (*Rising falling edge*)
+		);
+	MpAXBDrvDigTimeStampEdgType : STRUCT (*Parameters for the rising trigger edge for type mcAXB_DI_TIME_STAMP_RIS_FALL_EDG*)
+		CountSourceMapping : STRING[250]; (*Name of the process variable (SINT) representing the trigger edge count*)
+		TimeStampSourceMapping : STRING[250]; (*Name of the process variable (INT) representing the trigger edge time*)
 	END_STRUCT;
-	MpAXBDrvDigInTrg2Type : STRUCT
+	MpAXBDrvDigTimeStampType : STRUCT (*Trigger time stamp. StpAx only*)
+		Type : MpAXBDrvDigTimeStampTypeEnum; (*Time stamp setting*)
+		TimeStampSourceMapping : STRING[250]; (*Process variable time stamp source PV mapping for type mcAXB_DI_TIME_STAMP_USE*)
+		RisingEdge : MpAXBDrvDigTimeStampEdgType; (*Parameters for the rising trigger edge for type mcAXB_DI_TIME_STAMP_RIS_FALL_EDG*)
+		FallingEdge : MpAXBDrvDigTimeStampEdgType; (*Parameters for the falling trigger edge for type mcAXB_DI_TIME_STAMP_RIS_FALL_EDG*)
+	END_STRUCT;
+	MpAXBDrvDigInTrg1Type : STRUCT (*Trigger 1 input functionality*)
 		Level : MpAXBDrvDigInLevelEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Source : MpAXBDrvDigInSrcEnum; (*Source of the digital input which is used for this functionality*)
+		SourceMapping : STRING[250]; (*Process variable or IO channel source for digital input when type mcAXBDI_VAR or mcAXBDI_IO_CH is used*)
+		TimeStamp : MpAXBDrvDigTimeStampType; (*Trigger time stamp. StpAx only*)
+	END_STRUCT;
+	MpAXBDrvDigInTrg2Type : STRUCT (*Trigger 2 input functionality*)
+		Level : MpAXBDrvDigInLevelEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Source : MpAXBDrvDigInSrcEnum; (*Source of the digital input which is used for this functionality*)
+		SourceMapping : STRING[250]; (*Process variable or IO channel source for digital input when type mcAXBDI_VAR or mcAXBDI_IO_CH is used*)
+		TimeStamp : MpAXBDrvDigTimeStampType; (*Trigger time stamp. StpAx only*)
 	END_STRUCT;
 	MpAXBDrvDigInQstopInEnum :
 		( (*Digital input functionality triggering an axis quickstop*)
@@ -326,18 +411,21 @@ TYPE
 		mcAXB_QSTOP_IN_POS_LIM_SW := 2, (*Positive limit switch*)
 		mcAXB_QSTOP_IN_NEG_LIM_SW := 3, (*Negative limit switch*)
 		mcAXB_QSTOP_IN_HOME_SW := 4, (*Homing switch*)
-		mcAXB_QSTOP_IN_NOT_USE := 5 (*Not used*)
+		mcAXB_QSTOP_IN_NOT_USE := 5, (*Not used*)
+		mcAXB_QSTOP_IN_VAR := 6, (*Variable*)
+		mcAXB_QSTOP_IN_IO_CH := 7 (*I/O Channel*)
 		);
-	MpAXBDrvDigInQstopType : STRUCT
+	MpAXBDrvDigInQstopType : STRUCT (*Quickstop input functionality*)
 		Input : MpAXBDrvDigInQstopInEnum; (*Digital input functionality triggering an axis quickstop*)
+		SourceMapping : STRING[250]; (*Process variable or IO channel source for digital input when following inputs types are used: mcAXB_QSTOP_VAR, mcAXB_QSTOP_IO_CH*)
 	END_STRUCT;
 	MpAXBDrvDigInType : STRUCT (*Various digital input functionalities e.g. like homing switch or triggers*)
-		HomingSwitch : MpAXBDrvDigInHomeSwType;
+		HomingSwitch : MpAXBDrvDigInHomeSwType; (*Homing switch input functionality*)
 		PositiveLimitSwitch : MpAXBDrvDigInPosLimSwType; (*Positive limit switch input functionality*)
 		NegativeLimitSwitch : MpAXBDrvDigInNegLimSwType; (*Negative limit switch input functionality*)
-		Trigger1 : MpAXBDrvDigInTrg1Type;
-		Trigger2 : MpAXBDrvDigInTrg2Type;
-		Quickstop : MpAXBDrvDigInQstopType;
+		Trigger1 : MpAXBDrvDigInTrg1Type; (*Trigger 1 input functionality*)
+		Trigger2 : MpAXBDrvDigInTrg2Type; (*Trigger 2 input functionality*)
+		Quickstop : MpAXBDrvDigInQstopType; (*Quickstop input functionality*)
 	END_STRUCT;
 	MpAXBDrvType : STRUCT (*Drive configuration*)
 		MechanicalElements : MpAXBDrvMechElmType; (*Parameter of hardware elements situated between motor encoder and load which influence the scaling*)

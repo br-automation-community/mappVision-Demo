@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version="4.12.7.113 SP" WorkingVersion="4.12"?>
+<?AutomationStudio Version="4.12.9.18 SP" WorkingVersion="4.12"?>
 <Project Version="2.02.0" Edition="Standard" EditionComment="Standard" xmlns="http://br-automation.co.at/AS/Project">
   <Communication />
   <ANSIC Declarations="true" DefaultIncludes="true" />
@@ -8,11 +8,11 @@
   <Project StoreRuntimeInProject="false" />
   <Variables DefaultInitValue="0" DefaultRetain="false" DefaultVolatile="true" />
   <TechnologyPackages>
-    <mapp Version="5.24.3" />
+    <mapp Version="5.24.6" />
     <mappCockpit Version="5.24.4" />
-    <mappMotion McAcpDrv="5.27.1" McAcpSim="5.27.1" McAcpSys="5.27.1" McDriveLog="5.27.1" Version="5.27.1" />
-    <mappView Version="5.24.4" />
-    <mappVision Version="5.28.1" />
+    <mappMotion McAcpDrv="5.30.2" McAcpSim="5.30.2" McAcpSys="5.30.2" McDriveLog="5.30.2" Version="5.30.2" />
+    <mappView Version="5.24.7" />
+    <mappVision Version="5.30.1" />
     <OpcUaFx FxPtpB="1.0.0" PubSub="1.1.0" Version="1.2.0" />
   </TechnologyPackages>
 </Project>

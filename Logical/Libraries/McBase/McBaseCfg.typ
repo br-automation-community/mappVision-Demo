@@ -97,6 +97,12 @@ TYPE
 		mcCFG_PURE_V_AX_SIM := 12023, (*Associated with data type McCfgPureVAxSimType*)
 		mcCFG_PURE_V_AX_MOD := 12024, (*Associated with data type McCfgPureVAxModType*)
 		mcCFG_PURE_V_AX_ZERO_VIB_FLTR := 12025, (*Associated with data type McCfgPureVAxZeroVibFltrType*)
+		mcCFG_PURE_V_AX_ENC_SET := 12116, (*Associated with data type McCfgPureVAxEncSetType*)
+		mcCFG_PURE_V_AX_POS_ACT_VAL := 12126, (*Associated with data type McCfgPureVAxPosActValType*)
+		mcCFG_PURE_V_AX_STAT_IN_DS402 := 12121, (*Associated with data type McCfgPureVAxStatInDs402Type*)
+		mcCFG_PURE_V_AX_CTRL_OUT_DS402C := 12122, (*Associated with data type McCfgPureVAxCtrlOutDs402CSPType*)
+		mcCFG_PURE_V_AX_CTRL_OUT_DS402V := 12132, (*Associated with data type McCfgPureVAxCtrlOutDs402VLType*)
+		mcCFG_PURE_V_AX_VEL_ACT_VAL := 12136, (*Associated with data type McCfgPureVAxVelActValType*)
 		mcCFG_STP_AX := 13000, (*Associated with data type McCfgStpAxType*)
 		mcCFG_STP_AX_REF := 13011, (*Associated with data type McCfgStpAxRefType*)
 		mcCFG_STP_AX_MECH_ELM := 13012, (*Associated with data type McCfgStpAxMechElmType*)
@@ -136,6 +142,7 @@ TYPE
 		mcCFG_AXGRP_FEAT_COMP := 21102, (*Associated with data type McCfgAxGrpFeatCompType*)
 		mcCFG_AXGRP_FEAT_CDC := 21103, (*Associated with data type McCfgAxGrpFeatCdcType*)
 		mcCFG_AXGRP_FEAT_FF := 21104, (*Associated with data type McCfgAxGrpFeatFfType*)
+		mcCFG_AXGRP_FEAT_FF_M := 21204, (*Associated with data type McCfgAxGrpFeatFfModeType*)
 		mcCFG_AXGRP_FEAT_FRM_HIER_STD := 21105, (*Associated with data type McCfgAxGrpFeatFrmHierStdType*)
 		mcCFG_AXGRP_FEAT_FRM_HIER_CUS := 21106, (*Associated with data type McCfgAxGrpFeatFrmHierCusType*)
 		mcCFG_AXGRP_FEAT_JOG := 21107, (*Associated with data type McCfgAxGrpFeatJogType*)
@@ -854,7 +861,7 @@ TYPE
 		LimitReference : McCfgReferenceType; (*Name of the limit reference*)
 	END_STRUCT;
 	McPTCEnum :
-		( (*Cyclic task class for command processing*)
+		( (*Task class for cyclic data processing*)
 		mcPTC_CYC_1 := 1, (*Cyclic #1 - Task class 1*)
 		mcPTC_USE_MP_MOT_SET := 255 (*Use mapp Motion setting - Use the defined setting from the mapp Motion configuration or Task class 1 if no mapp Motion Configuration exists*)
 		);

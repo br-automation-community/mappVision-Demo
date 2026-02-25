@@ -1601,7 +1601,8 @@ TYPE
 		( (*Feed-forward selector setting*)
 		mcACMPCMBCFF_STD := 0, (*Standard - Based on several parameters the torque feed-forward calculation is done on the axis*)
 		mcACMPCMBCFF_PRED_SPD := 1, (*Predictive speed - Predictive speed*)
-		mcACMPCMBCFF_TWO_MASS_MDL_BASED := 2 (*Two mass model based - Two mass model based*)
+		mcACMPCMBCFF_TWO_MASS_MDL_BASED := 2, (*Two mass model based - Two mass model based*)
+		mcACMPCMBCFF_FRICT_COMP := 3 (*Friction compensation - Friction compensation*)
 		);
 	McACMPCMBCFFStdType : STRUCT (*Type mcACMPCMBCFF_STD settings*)
 		TorqueLoad : REAL; (*Load torque [Nm]*)
@@ -1620,11 +1621,23 @@ TYPE
 		TorqueNegative : REAL; (*Torque in negative direction [Nm]*)
 		AccelerationFilterTime : REAL; (*Acceleration filter time constant [s]*)
 	END_STRUCT;
+	McACMPCMBCFFFrictCompType : STRUCT (*Type mcACMPCMBCFF_FRICT_COMP settings*)
+		TorqueLoad : REAL; (*Load torque [Nm]*)
+		TorquePositive : REAL; (*Torque in positive direction [Nm]*)
+		TorqueNegative : REAL; (*Torque in negative direction [Nm]*)
+		SpeedTorqueFactor : REAL; (*Speed torque factor [Nms]*)
+		Inertia : REAL; (*Mass moment of inertia [kgm²]*)
+		AccelerationFilterTime : REAL; (*Acceleration filter time constant [s]*)
+		ActivationSpeed : REAL; (*Compensation is activated when the speed enters this window [measurement units/s]*)
+		DeactivationLagError : REAL; (*Compensation is deactivated when the lag error enters this window [measurement units]*)
+		TimeConstant : REAL; (*Time constant of the filter for smoothing the feed-forward signal [s]*)
+	END_STRUCT;
 	McACMPCMBCFFType : STRUCT (*Feed-forward control parameters*)
 		Type : McACMPCMBCFFEnum; (*Feed-forward selector setting*)
 		Standard : McACMPCMBCFFStdType; (*Type mcACMPCMBCFF_STD settings*)
 		PredictiveSpeed : McACMPCMBCFFPredSpdType; (*Type mcACMPCMBCFF_PRED_SPD settings*)
 		TwoMassModelBased : McACMPCMBCFFTwoMassMdlBasedType; (*Type mcACMPCMBCFF_TWO_MASS_MDL_BASED settings*)
+		FrictionCompensation : McACMPCMBCFFFrictCompType; (*Type mcACMPCMBCFF_FRICT_COMP settings*)
 	END_STRUCT;
 	McACMPCMBCFdbkEnum :
 		( (*Feedback selector setting*)
@@ -1927,32 +1940,46 @@ TYPE
 		mcASRQ_DEC_LIM := 0, (*Deceleration limit - Stop with deceleration limits*)
 		mcASRQ_DEC_LIM_W_JERK_FLTR := 1, (*Deceleration limit with jerk filter - Stop with deceleration limits and jerk filter*)
 		mcASRQ_TORQ_LIM := 2, (*Torque limit - Stop with torque limits*)
+		mcASRQ_TORQ_LIM_W_JERK_FLTR := 4, (*Torque limit with jerk filter - Stop with torque limits and jerk filter*)
+		mcASRQ_VEL_CTRL := 5, (*Velocity control - Stop velocity controlled with axis limits*)
 		mcASRQ_INDUCT_HALT := 3 (*Induction halt - Stop with an induction halt*)
 		);
 	McASRQstopDecLimWJerkFltrType : STRUCT (*Type mcASRQ_DEC_LIM_W_JERK_FLTR settings*)
 		JerkTime : REAL; (*Jerk filter time, max. Axis Jerk time / 2 [s]*)
 	END_STRUCT;
+	McASRQstopTorqLimWJerkFltrType : STRUCT (*Type mcASRQ_TORQ_LIM_W_JERK_FLTR settings*)
+		JerkTime : REAL; (*Jerk filter time, max. Axis Jerk time / 2 [s]*)
+	END_STRUCT;
 	McASRQstopType : STRUCT (*Deceleration ramp / reaction in case of a quickstop which is caused by an active quickstop input*)
 		Type : McASRQstopEnum; (*Quickstop selector setting*)
 		DecelerationLimitWithJerkFilter : McASRQstopDecLimWJerkFltrType; (*Type mcASRQ_DEC_LIM_W_JERK_FLTR settings*)
+		TorqueLimitWithJerkFilter : McASRQstopTorqLimWJerkFltrType; (*Type mcASRQ_TORQ_LIM_W_JERK_FLTR settings*)
 	END_STRUCT;
 	McASRDrvErrEnum :
 		( (*Drive error selector setting*)
 		mcASRDE_DEC_LIM := 0, (*Deceleration limit - Stop with deceleration limits*)
+		mcASRDE_TORQ_LIM := 4, (*Torque limit - Stop with torque limits*)
+		mcASRDE_TORQ_LIM_W_JERK_FLTR := 5, (*Torque limit with jerk filter - Stop with torque limits and jerk filter*)
+		mcASRDE_VEL_CTRL := 6, (*Velocity control - Stop velocity controlled with axis limits*)
 		mcASRDE_INDUCT_HALT := 1, (*Induction halt - Stop with an induction halt*)
 		mcASRDE_COAST_TO_STANDSTILL := 2, (*Coast to standstill - Controller is deactivated*)
 		mcASRDE_CYC_DEC_FROM_AX_GRP := 3 (*Cyclic deceleration from axes group - The deceleration calculation is done by the axes group on the PLC and the value is forwarded to the axis*)
 		);
+	McASRDrvErrTorqLimWJerkFltrType : STRUCT (*Type mcASRDE_TORQ_LIM_W_JERK_FLTR settings*)
+		JerkTime : REAL; (*Jerk filter time, max. Axis Jerk time / 2 [s]*)
+	END_STRUCT;
 	McASRDrvErrCycDecFromAxGrpType : STRUCT (*Type mcASRDE_CYC_DEC_FROM_AX_GRP settings*)
 		DefaultDeceleration : REAL; (*Default deceleration value. If 0.0, the maximum allowed value is used [Measurement units/s²]*)
 	END_STRUCT;
 	McASRDrvErrType : STRUCT (*Deceleration ramp / Response in the event of ErrorStop caused by drive error*)
 		Type : McASRDrvErrEnum; (*Drive error selector setting*)
+		TorqueLimitWithJerkFilter : McASRDrvErrTorqLimWJerkFltrType; (*Type mcASRDE_TORQ_LIM_W_JERK_FLTR settings*)
 		CyclicDecelerationFromAxesGroup : McASRDrvErrCycDecFromAxGrpType; (*Type mcASRDE_CYC_DEC_FROM_AX_GRP settings*)
 	END_STRUCT;
 	McASRType : STRUCT (*Reactions of the axis in case of certain stop conditions*)
 		Quickstop : McASRQstopType; (*Deceleration ramp / reaction in case of a quickstop which is caused by an active quickstop input*)
 		DriveError : McASRDrvErrType; (*Deceleration ramp / Response in the event of ErrorStop caused by drive error*)
+		FilterTime : REAL; (*Filter time for stop reaction [s]*)
 	END_STRUCT;
 	McAMELVelErrMonEnum :
 		( (*Velocity error monitoring selector setting*)
@@ -2033,13 +2060,13 @@ TYPE
 		Variable : McADIAllSrcVarType; (*Type mcADIAS_VAR settings*)
 	END_STRUCT;
 	McADILvlEnum :
-		( (*Level of the digital input hardware which leads to an active level of the functionality*)
+		( (*Level of the digital input hardware which leads to an active level of the functionality, not used with 'Force by function block'*)
 		mcADIL_HIGH := 0, (*High*)
 		mcADIL_LOW := 1 (*Low*)
 		);
 	McADIHomeSwType : STRUCT (*Homing switch input functionality*)
 		Source : McADIHomeSwSrcType; (*Source of the digital input hardware which is used for this functionality*)
-		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality, not used with 'Force by function block'*)
 	END_STRUCT;
 	McADIPosLimSwSrcType : STRUCT (*Source of the digital input hardware which is used for this functionality*)
 		Type : McADIAllSrcEnum; (*Source selector setting*)
@@ -2047,7 +2074,7 @@ TYPE
 	END_STRUCT;
 	McADIPosLimSwType : STRUCT (*Positive limit switch input functionality*)
 		Source : McADIPosLimSwSrcType; (*Source of the digital input hardware which is used for this functionality*)
-		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality, not used with 'Force by function block'*)
 	END_STRUCT;
 	McADINegLimSwSrcType : STRUCT (*Source of the digital input hardware which is used for this functionality*)
 		Type : McADIAllSrcEnum; (*Source selector setting*)
@@ -2055,7 +2082,7 @@ TYPE
 	END_STRUCT;
 	McADINegLimSwType : STRUCT (*Negative limit switch input functionality*)
 		Source : McADINegLimSwSrcType; (*Source of the digital input hardware which is used for this functionality*)
-		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality, not used with 'Force by function block'*)
 	END_STRUCT;
 	McADITrg1SrcType : STRUCT (*Source of the digital input hardware which is used for this functionality*)
 		Type : McADIAllSrcEnum; (*Source selector setting*)
@@ -2063,7 +2090,7 @@ TYPE
 	END_STRUCT;
 	McADITrg1Type : STRUCT (*Trigger 1 input functionality*)
 		Source : McADITrg1SrcType; (*Source of the digital input hardware which is used for this functionality*)
-		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality, not used with 'Force by function block'*)
 	END_STRUCT;
 	McADITrg2SrcType : STRUCT (*Source of the digital input hardware which is used for this functionality*)
 		Type : McADIAllSrcEnum; (*Source selector setting*)
@@ -2071,7 +2098,7 @@ TYPE
 	END_STRUCT;
 	McADITrg2Type : STRUCT (*Trigger 2 input functionality*)
 		Source : McADITrg2SrcType; (*Source of the digital input hardware which is used for this functionality*)
-		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality*)
+		Level : McADILvlEnum; (*Level of the digital input hardware which leads to an active level of the functionality, not used with 'Force by function block'*)
 	END_STRUCT;
 	McADIQstopInEnum :
 		( (*Digital input functionality triggering an axis quickstop*)
