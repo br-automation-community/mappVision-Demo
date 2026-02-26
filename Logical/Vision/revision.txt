@@ -1,30 +1,33 @@
-Version 5.28.1 (22.01.2022)
-- Changed hardware to smaller C50
-- Removed smaller X20CPU
-- Changed ACOPOS single to Mirco
-- Make visulization fit new panel size
-
-Version 5.28 (15.01.2022)
-- Update to mappVision 5.28
-- Added Deep OCR sample
-- Fixed height and width for crosshairs
-
-Version 5.26.3 (03.07.2024)
-- Fixed artefacts in main page image when no camera image was loaded
-- Use vision sensor resolution from config to account for cameras with higher resolution
-
-Version 5.26.2 (10.06.2024)
-- Optimized image download
-- General code optimizations
-
-Version 5.26.1
-- Update to mappVision 5.26
-- Changed image request to official function block
-- Removed recipe management
-- Removed color detection
-- Removed optic details
-- Removed VC4 support
-- Removed TCP proxy task
-- Removed function to load VA applications
-- Removed function to download images
-
+Version 5.28.2 (25.03.2025) 
+- Removed second configuration and update all components 
+- Fixed image dimensions 
+ 
+Version 5.28.1 (22.01.2025) 
+- Changed hardware to smaller C50 
+- Removed smaller X20CPU 
+- Changed ACOPOS single to Mirco 
+- Make visulization fit new panel size 
+ 
+Version 5.28 (15.01.2022) 
+- Update to mappVision 5.28 
+- Added Deep OCR sample 
+- Fixed height and width for crosshairs 
+ 
+Version 5.26.3 (03.07.2024) 
+- Fixed artefacts in main page image when no camera image was loaded 
+- Use vision sensor resolution from config to account for cameras with higher resolution 
+ 
+Version 5.26.2 (10.06.2024) 
+- Optimized image download 
+- General code optimizations 
+ 
+Version 5.26.1 
+- Update to mappVision 5.26 
+- Changed image request to official function block 
+- Removed recipe management 
+- Removed color detection 
+- Removed optic details 
+- Removed VC4 support 
+- Removed TCP proxy task 
+- Removed function to load VA applications 
+- Removed function to download images 
