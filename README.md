@@ -27,9 +27,8 @@ This vision sample contains a lot of functions that are not included in the mapp
 <a name="Requirements"></a>
 ## Requirements (current used versions)
 Should also work with newer and some older versions
-* Automation Studio 4.12
-* mapp 5.28
-* Automation Runtime I4.93
+* Automation Studio 6.5
+* mapp 6.4.1
 
 Recommended task class is #8 with a 10ms cycle time. For the nettime and axis tasks use #1
 
@@ -37,8 +36,15 @@ Recommended task class is #8 with a 10ms cycle time. For the nettime and axis ta
 ## Revision History
 You can find details in the project in "revision.txt"
 
-#### Version 6.0 (25.11.2025)
+#### Version 6.4.1 (25.02.2026)
+- Fix crosshair and added font size
+
+#### Version 6.0.0 (25.11.2025)
 - Update project to AS6
+
+#### Version 5.28.2 (25.03.2025)
+- Removed second configuration and update all components
+- Fixed image dimensions
 
 #### Version 5.28.1 (22.01.2025)
 - Changed hardware to smaller C50
