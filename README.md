@@ -37,10 +37,14 @@ Recommended task class is #8 with a 10ms cycle time. For the nettime and axis ta
 ## Revision History
 You can find details in the project in "revision.txt"
 
+#### Version 5.28.2 (25.03.2025) 
+- Removed second configuration and update all components 
+- Fixed image dimensions 
+ 
 #### Version 5.28.1 (22.01.2025)
-- Changed hardware to smaller C50
-- Removed smaller X20CPU
-- Changed ACOPOS single to Mirco
+- Changed hardware to smaller C50 
+- Removed smaller X20CPU 
+- Changed ACOPOS single to Mirco 
 - Make visulization fit new panel size
 
 #### Version 5.28 (15.01.2025)
