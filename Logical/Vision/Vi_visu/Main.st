@@ -304,30 +304,30 @@ PROGRAM _CYCLIC
 				CASE VisionSensor.CFG.VisionFunction OF
 					enumBlob:
 						CrosshairModelNumber := gBlob.ModelNumber[i];
-						CrosshairPositionX := UDINT_TO_REAL(gBlob.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*1280;    
-						CrosshairPositionY := UDINT_TO_REAL(gBlob.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*1024;    
+						CrosshairPositionX := UDINT_TO_REAL(gBlob.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*IMAGE_WIDTH;    
+						CrosshairPositionY := UDINT_TO_REAL(gBlob.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*IMAGE_HEIGHT;    
 						CrosshairOrientation := gBlob.Orientation[i];
 					enumMatch:
 						CrosshairModelNumber := gMatch.ModelNumber[i];
-						CrosshairPositionX := UDINT_TO_REAL(gMatch.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*1280;    
-						CrosshairPositionY := UDINT_TO_REAL(gMatch.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*1024;    
+						CrosshairPositionX := UDINT_TO_REAL(gMatch.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*IMAGE_WIDTH;    
+						CrosshairPositionY := UDINT_TO_REAL(gMatch.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*IMAGE_HEIGHT;    
 						CrosshairOrientation := gMatch.Orientation[i];
 					enumCoderReader:
-						CrosshairPositionX := UDINT_TO_REAL(gCodeReader.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*1280;    
-						CrosshairPositionY := UDINT_TO_REAL(gCodeReader.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*1024;    
+						CrosshairPositionX := UDINT_TO_REAL(gCodeReader.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*IMAGE_WIDTH;    
+						CrosshairPositionY := UDINT_TO_REAL(gCodeReader.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*IMAGE_HEIGHT;    
 						CrosshairOrientation := gCodeReader.Orientation[i];
 					enumOCR:
-						CrosshairPositionX := UDINT_TO_REAL(gOCR.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*1280;    
-						CrosshairPositionY := UDINT_TO_REAL(gOCR.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*1024;    
+						CrosshairPositionX := UDINT_TO_REAL(gOCR.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*IMAGE_WIDTH;    
+						CrosshairPositionY := UDINT_TO_REAL(gOCR.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*IMAGE_HEIGHT;    
 						CrosshairOrientation := gOCR.Orientation[i];
 					enumDOCR:
-						CrosshairPositionX := UDINT_TO_REAL(gDOCR.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*1280;    
-						CrosshairPositionY := UDINT_TO_REAL(gDOCR.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*1024;    
+						CrosshairPositionX := UDINT_TO_REAL(gDOCR.PositionX[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*IMAGE_WIDTH;    
+						CrosshairPositionY := UDINT_TO_REAL(gDOCR.PositionY[i])/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*IMAGE_HEIGHT;    
 						CrosshairOrientation := gOCR.Orientation[i];
 					enumMeasurement:
 						IF(gMT.UseResultAsXY = TRUE) THEN
-							CrosshairPositionX := UDINT_TO_REAL(gMT.Result[i])/10/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*1280;    
-							CrosshairPositionY := UDINT_TO_REAL(gMT.Result[i+1])/10/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*1024;
+							CrosshairPositionX := UDINT_TO_REAL(gMT.Result[i])/10/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionWidth)*IMAGE_WIDTH;    
+							CrosshairPositionY := UDINT_TO_REAL(gMT.Result[i+1])/10/UINT_TO_REAL(gVisionSensor[gSelectedSensor].CFG.ResolutionHeight)*IMAGE_HEIGHT;
 							i := i + 1;
 						END_IF
 				END_CASE
@@ -385,10 +385,14 @@ PROGRAM _CYCLIC
 						// -----------------------------------------------------------------------------------------------------------
 						// Add text data to selected cross hair
 						IF(visCrossHair.DetailsNo = i) THEN
-							tmpStr1 := '<text class="cText" fill="red" font-size="22" font-family="Helvetica, Arial, sans-serif" x="';
+							tmpStr1 := '<text class="cText" fill="red" font-size="';
 						ELSE
-							tmpStr1 := '<text class="cText" fill="blue" font-size="22" font-family="Helvetica, Arial, sans-serif" x="';
+							tmpStr1 := '<text class="cText" fill="blue" font-size="';
 						END_IF
+						brsitoa(visCrossHair.Font, ADR(tmpStr2));
+						brsstrcat(ADR(tmpStr1), ADR(tmpStr2));
+						brsstrcat(ADR(tmpStr1), ADR('" font-family="Helvetica, Arial, sans-serif" x="'));
+
 						brsitoa(REAL_TO_INT(tmpXI - tmpC + visCrossHair.Size), ADR(tmpStr2));
 						brsstrcat(ADR(tmpStr1), ADR(tmpStr2));
 						brsstrcat(ADR(tmpStr1), ADR('" y="'));
@@ -411,7 +415,10 @@ PROGRAM _CYCLIC
 						IF(visCrossHair.DetailsNo = i) THEN
 							// -----------------------------------------------------------------------------------------------------------
 							// Add text data from selected cross hair
-							brsstrcat(ADR(tmpStr1), ADR('<text class="cText" fill="red" font-size="35" font-family="Helvetica, Arial, sans-serif" x="10" y="10"> '));
+							brsstrcat(ADR(tmpStr1), ADR('<text class="cText" fill="red" font-size="'));
+							brsitoa(visCrossHair.Font, ADR(tmpStr2));
+							brsstrcat(ADR(tmpStr1), ADR(tmpStr2));
+							brsstrcat(ADR(tmpStr1), ADR('" font-family="Helvetica, Arial, sans-serif" x="10" y="10"> '));
 							
 							// Add modell ID information for blob and match
 							IF(VisionSensor.CFG.VisionFunction = enumBlob OR VisionSensor.CFG.VisionFunction = enumMatch) THEN

@@ -3,11 +3,6 @@ VAR CONSTANT
 	MAX_IMAGE_SIZE : UDINT := 6500000;
 	MAX_CROSSHAIR_SIZE : UDINT := 10000;
 END_VAR
-VAR
-	IMAGE_QUALITY : USINT := 50;
-	IMAGE_WIDTH : UINT := 640; (*Image width of the SVG image in mappView*)
-	IMAGE_HEIGHT : UINT := 512; (*Image height of the SVG image in mappView*)
-END_VAR
 (**)
 VAR
 	Step : VIStep_Enum;
