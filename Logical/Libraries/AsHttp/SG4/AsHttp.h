@@ -490,6 +490,7 @@ _BUR_PUBLIC void httpGetMultipartMessage(struct httpGetMultipartMessage* inst);
  #define httpMETHOD_POST 2U
  #define httpMETHOD_GET 1U
  #define httpERR_SYSTEM 35579U
+ #define httpERR_INVALID_MCS_CONFIG 35569U
  #define httpERR_INVALID_SSL_CONFIG 35568U
  #define httpERR_SSL_HANDSHAKE_FAILED 35567U
  #define httpERR_ILLEGAL_CHARACTERS 35566U
@@ -526,6 +527,7 @@ _BUR_PUBLIC void httpGetMultipartMessage(struct httpGetMultipartMessage* inst);
  _GLOBAL_CONST unsigned short httpMETHOD_POST;
  _GLOBAL_CONST unsigned short httpMETHOD_GET;
  _GLOBAL_CONST unsigned short httpERR_SYSTEM;
+ _GLOBAL_CONST unsigned short httpERR_INVALID_MCS_CONFIG;
  _GLOBAL_CONST unsigned short httpERR_INVALID_SSL_CONFIG;
  _GLOBAL_CONST unsigned short httpERR_SSL_HANDSHAKE_FAILED;
  _GLOBAL_CONST unsigned short httpERR_ILLEGAL_CHARACTERS;

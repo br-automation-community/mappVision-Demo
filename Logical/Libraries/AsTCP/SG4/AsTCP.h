@@ -241,6 +241,7 @@ _BUR_PUBLIC void TcpIoctl(struct TcpIoctl* inst);
  #define tcpERR_SYSTEM 32699U
  #define tcpERR_SSL_HANDSHAKE_FAILED 32698U
  #define tcpERR_INVALID_SSL_CONFIG 32697U
+ #define tcpERR_INVALID_MCS_CONFIG 32696U
  #define tcpERR_SOCKET_ACCEPT 32653U
  #define tcpERR_SOCKET_LISTEN 32652U
  #define tcpERR_SOCKET_BIND 32651U
@@ -293,6 +294,7 @@ _BUR_PUBLIC void TcpIoctl(struct TcpIoctl* inst);
  _GLOBAL_CONST unsigned short tcpERR_SYSTEM;
  _GLOBAL_CONST unsigned short tcpERR_SSL_HANDSHAKE_FAILED;
  _GLOBAL_CONST unsigned short tcpERR_INVALID_SSL_CONFIG;
+ _GLOBAL_CONST unsigned short tcpERR_INVALID_MCS_CONFIG;
  _GLOBAL_CONST unsigned short tcpERR_SOCKET_ACCEPT;
  _GLOBAL_CONST unsigned short tcpERR_SOCKET_LISTEN;
  _GLOBAL_CONST unsigned short tcpERR_SOCKET_BIND;

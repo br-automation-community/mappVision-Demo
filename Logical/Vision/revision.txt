@@ -1,3 +1,6 @@
+Version 6.5.1 (17.03.2026)
+- Remove post build script
+
 Version 6.4.1 (25.02.2026)
 - Fix crosshair and added font size
 
