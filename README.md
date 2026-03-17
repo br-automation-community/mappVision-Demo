@@ -36,6 +36,9 @@ Recommended task class is #8 with a 10ms cycle time. For the nettime and axis ta
 ## Revision History
 You can find details in the project in "revision.txt"
 
+#### Version 6.5.1 (17.03.2026)
+- Remove post build script
+
 #### Version 6.4.1 (25.02.2026)
 - Fix crosshair and added font size
 
